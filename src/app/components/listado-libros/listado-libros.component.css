@@ -1,0 +1,50 @@
+table {
+    width: 100%;
+  }
+
+.title{
+    padding: 30px;
+    background-color: #265417;
+    text-align: center;
+    color: #dba31d;
+}
+.container{
+    margin: 0 10%;
+}
+td,th{
+    width: 15%;
+}
+.mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  .delete{
+    cursor: pointer;
+    color: #265417;
+  }
+  .delete:hover{
+    color: rgb(255, 4, 4);
+  }
+  .edit{
+    cursor: pointer;
+    color: #265417;
+  }
+  .edit:hover{
+    
+    color: #48742c;
+  }
+  .search{
+    cursor: pointer;
+    color: #265417;
+  }
+  .search:hover{
+    color: #48742c;
+  }
+
+#btnGuardar{
+    color: #dba31d;
+    background:  #265417;
+}
+#btnGuardar:hover{
+    background:  #48742c;
+}
