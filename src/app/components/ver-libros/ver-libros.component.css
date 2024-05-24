@@ -1,0 +1,17 @@
+.card{
+    margin-top: 5px;
+    text-align: center;
+}
+
+#btnVolver {
+    border: 2px solid #265417;
+    background-color: white;
+    color: #dba31d;
+    font-size: 15px;
+    cursor: pointer;
+    line-height: 30px;
+  }
+  
+  #btnVolver:hover {
+    background: #48742c;
+  }

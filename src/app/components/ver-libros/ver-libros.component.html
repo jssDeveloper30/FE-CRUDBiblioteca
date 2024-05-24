@@ -1,1 +1,19 @@
-<p>ver-libros works!</p>
+<div class="title">
+    <h1> Libros </h1>
+</div>
+<div class="container">
+    <mat-card class="card">
+        <mat-card-title> Viaje al centro de la tierra</mat-card-title>
+        <mat-card-content>
+            <p><strong>ISBN:</strong>9786070784811</p>
+            <p><strong>Autor:</strong>Julio Verne</p>
+            <p><strong>Titulo:</strong>Viaje al centro de la tierra</p>
+            <p><strong>Fecha Publicacíon:</strong>25/11/1864</p>
+            <p><strong>Categoria:</strong>Aventura y ciencia ficcion</p>
+            <p><strong>Editorial:</strong>Hetzel</p>
+        </mat-card-content>
+        <mat-card-actions>
+            <button [routerLink]="['/listLibro']" id="btnVolver" mat-button>Volver</button>
+        </mat-card-actions>
+    </mat-card>
+</div>
