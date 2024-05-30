@@ -5,20 +5,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { timeout } from 'rxjs';
+import { LibroService } from '../../services/libro.service';
+import { error } from 'console';
 
 
 
-const listLibros: Libro[] = [
-  { isbn: 9786070784811, autor: "Julio Verne", titulo: "Viaje al centro de la tierra", fechaPublicacion: "25/11/1864", categoria: "Aventura y ciencia ficcion", editorial: "Hetzel" },
-  { isbn: 7515, autor: "Julio Verne", titulo: "Godzilla 2000", fechaPublicacion: "1997-11-11", categoria: "Aventura y ciencia ficcion", editorial: "Hetzel" },
-  { isbn: 141411, autor: "Julio Verne", titulo: "Viaje al centro de la tierra", fechaPublicacion: "25/11/1864", categoria: "Aventura y ciencia ficcion", editorial: "Hetzel" },
-  { isbn: 336561, autor: "Julio Verne", titulo: "Viaje al centro de la tierra", fechaPublicacion: "25/11/1864", categoria: "Aventura y ciencia ficcion", editorial: "Hetzel" },
-  { isbn: 457457, autor: "Julio Verne", titulo: "Viaje al centro de la tierra", fechaPublicacion: "25/11/1864", categoria: "Aventura y ciencia ficcion", editorial: "Hetzel" },
-  { isbn: 23564, autor: "Julio Verne", titulo: "Viaje al centro de la tierra", fechaPublicacion: "25/11/1864", categoria: "Aventura y ciencia ficcion", editorial: "Hetzel" },
-  { isbn: 56784566, autor: "Julio Verne", titulo: "Viaje al centro de la tierra", fechaPublicacion: "25/11/1864", categoria: "Aventura y ciencia ficcion", editorial: "Hetzel" },
-  { isbn: 5643747, autor: "Julio Verne", titulo: "Viaje al centro de la tierra", fechaPublicacion: "25/11/1864", categoria: "Aventura y ciencia ficcion", editorial: "Hetzel" },
-  { isbn: 68999, autor: "Julio Verne", titulo: "Viaje al centro de la tierra", fechaPublicacion: "25/11/1864", categoria: "Aventura y ciencia ficcion", editorial: "Hetzel" }
-];
+
 
 @Component({
   selector: 'app-listado-libros',
@@ -27,37 +19,70 @@ const listLibros: Libro[] = [
 })
 export class ListadoLibrosComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['isbn', 'autor', 'titulo', 'fechaPublicacion', 'categoria', 'editorial', 'acciones'];
-  dataSource = new MatTableDataSource<Libro>(listLibros);
+  dataSource = new MatTableDataSource<Libro>();
   loading: boolean = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private _snackBar: MatSnackBar) {
+  constructor(private _snackBar: MatSnackBar, private _libroService:LibroService) {
 
   }
 
   ngOnInit(): void {
+    this.obtenerLibros();
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    if(this.dataSource.data.length > 0){
     this.paginator._intl.itemsPerPageLabel = "Libros por página";
+    }
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  eliminarLibro() {
+
+  // obtenerLibros(){
+  //   this.loading = true;
+  //   this._libroService.getLibros().subscribe(data => {
+  //     this.loading= false;
+  //     this.dataSource.data = data;
+  //   }, error => {
+  //     this.loading = false;
+  //     alert('opps ocurrio un error')
+  //   })
+  // }
+
+  obtenerLibros(){
     this.loading = true;
-    setTimeout(() => {
+    this._libroService.getLibro().subscribe({
+      next: (data) => {
+        this.loading= false;
+        this.dataSource.data = data;
+      },
+      error: (e) => this.loading= false,
+      complete: () => console.info('complete') 
+  })
+  }
+
+  eliminarLibro(isbn: number) {
+    this.loading = true;
+    this._libroService.deleteLibro(isbn).subscribe(()=>{
+      this.mensajeExito();
       this.loading = false;
-      this._snackBar.open('El libro fue eliminado con exito', '', {
-        duration: 3000,
-        horizontalPosition: 'right'
-      });
-    }, 3000);
+      this.obtenerLibros(); 
+    })
+
+  }
+
+  mensajeExito(){
+    this._snackBar.open('El libro fue eliminado con exito', '', {
+      duration: 3000,
+      horizontalPosition: 'right'
+    });
   }
 }

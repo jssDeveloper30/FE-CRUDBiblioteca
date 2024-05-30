@@ -1,16 +1,17 @@
 <div class="title">
     <h1> Libros </h1>
 </div>
-<div class="container">
+<!-- <div *ngIf="libro$ | async as libro" class="container"> PIPE ASYNC -->
+    <app-spinner *ngIf="loading"></app-spinner>
+    <div *ngIf="libro!= null" class="container">
     <mat-card class="card">
-        <mat-card-title> Viaje al centro de la tierra</mat-card-title>
+        <mat-card-title> {{ libro.titulo }}</mat-card-title>
         <mat-card-content>
-            <p><strong>ISBN:</strong>9786070784811</p>
-            <p><strong>Autor:</strong>Julio Verne</p>
-            <p><strong>Titulo:</strong>Viaje al centro de la tierra</p>
-            <p><strong>Fecha Publicacíon:</strong>25/11/1864</p>
-            <p><strong>Categoria:</strong>Aventura y ciencia ficcion</p>
-            <p><strong>Editorial:</strong>Hetzel</p>
+            <p><strong>ISBN:</strong>{{ libro.isbn }}</p>
+            <p><strong>Autor:</strong>{{ libro.autor }}</p>
+            <p><strong>Fecha Publicacíon:</strong>{{ libro.fechaPublicacion }}</p>
+            <p><strong>Categoria:</strong>{{ libro.categoria }}</p>
+            <p><strong>Editorial:</strong>{{ libro.editorial }}</p>
         </mat-card-content>
         <mat-card-actions>
             <button [routerLink]="['/listLibro']" id="btnVolver" mat-button>Volver</button>
